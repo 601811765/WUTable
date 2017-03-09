@@ -47,14 +47,8 @@ NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
 }
 
 -(void)setDelegateDataSource {
-    
-    if([self isVariableWithPropertyName:@"delegate"]) {
-        [self setValue:self forKey:@"delegate"];
-    }
-    
-    if([self isVariableWithPropertyName:@"dataSource"]) {
-        [self setValue:self forKey:@"dataSource"];
-    }
+    super.delegate = self;
+    super.dataSource = self;
 }
 
 -(BOOL)isVariableWithPropertyName:(NSString *)name {
