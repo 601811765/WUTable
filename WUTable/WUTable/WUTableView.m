@@ -115,9 +115,12 @@ NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
     return height;
 }
 
--(void)callFillData:(id)userData target:(id)target {
+-(void)callFillData:(id)userData target:(id)target userInfo:(id)userInfo {
     if([target conformsToProtocol:@protocol(WUDataSourceProtocol)]) {
         [target dataSourceFillWithUserData:userData];
+        if([target respondsToSelector:@selector(setDataSourceUserInfo:)]) {
+            [target performSelector:@selector(setDataSourceUserInfo:) withObject:userInfo];
+        }
     }
 }
 
@@ -150,7 +153,7 @@ NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
     WUKeyValueItem<NSString*, Class> *header = s.header.registerClass;
     UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:header.key];
     headerView.textLabel.text = s.header.text;
-    [self callFillData:s.header.userData target:headerView];
+    [self callFillData:s.header.userData target:headerView userInfo:s.header.userInfo];
     
     return headerView;
 }
@@ -166,7 +169,7 @@ NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
     WUKeyValueItem<NSString*, Class> *footer = s.footer.registerClass;
     UITableViewHeaderFooterView *footerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:footer.key];
     footerView.textLabel.text = s.footer.text;
-    [self callFillData:s.footer target:footerView];
+    [self callFillData:s.footer target:footerView userInfo:s.footer.userInfo];
     
     return footerView;
 }
@@ -205,7 +208,7 @@ NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
         cell.imageView.image = nil;
     }
     
-    [self callFillData:obj.userData target:cell];
+    [self callFillData:obj.userData target:cell userInfo:obj.userInfo];
     
     return cell;
 }

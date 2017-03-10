@@ -101,6 +101,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 -(void)dataSourceFillWithUserData:(nullable id)userData;
 
+@optional
+@property(nonatomic, weak) id dataSourceUserInfo;
+
 @end
 
 NS_ASSUME_NONNULL_END
