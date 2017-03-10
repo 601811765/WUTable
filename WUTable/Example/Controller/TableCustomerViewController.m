@@ -45,8 +45,14 @@
     return [NSMutableArray arrayWithArray:@[section]];
 }
 
--(void)customerTableViewCell:(CustomerTableViewCell *)cell buttonTouched:(UIButton *)sender {
-    NSLog(@"%@", sender);
+#pragma mark -CustomerTableViewCellDelegate
+
+-(void)customerTableViewCell:(CustomerTableViewCell *)cell buttonTouchUpInside:(UIButton *)sender {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"按钮代理调用" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 @end

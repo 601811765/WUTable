@@ -12,8 +12,7 @@
 @class CustomerTableViewCell;
 
 @protocol CustomerTableViewCellDelegate <NSObject>
-
--(void)customerTableViewCell:(CustomerTableViewCell*)cell buttonTouched:(UIButton*)sender;
+-(void)customerTableViewCell:(CustomerTableViewCell*)cell buttonTouchUpInside:(UIButton*)sender;
 
 @end
 

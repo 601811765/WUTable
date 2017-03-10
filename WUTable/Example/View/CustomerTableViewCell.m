@@ -14,6 +14,12 @@
     UIButton *_button;
 }
 
+-(void)setDataSourceUserInfo:(id)dataSourceUserInfo {
+    if([dataSourceUserInfo conformsToProtocol:@protocol(CustomerTableViewCellDelegate)]) {
+        self.delegate = dataSourceUserInfo;
+    }
+}
+
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if(self) {
@@ -64,7 +70,7 @@
 
 -(void)buttonTouchUpInside:(UIButton*)sender {
     if(self.delegate) {
-        [self.delegate customerTableViewCell:self buttonTouched:sender];
+        [self.delegate customerTableViewCell:self buttonTouchUpInside:sender];
     }
 }
 
