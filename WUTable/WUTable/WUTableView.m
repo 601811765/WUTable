@@ -21,15 +21,6 @@ NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
 
 #pragma mark -
 
--(instancetype)init {
-    self = [super init];
-    if(self) {
-        [self setDelegateDataSource];
-    }
-
-    return self;
-}
-
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame: frame];
     if(self) {
@@ -49,20 +40,6 @@ NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
 -(void)setDelegateDataSource {
     super.delegate = self;
     super.dataSource = self;
-}
-
--(BOOL)isVariableWithPropertyName:(NSString *)name {
-    unsigned int outCount, i;
-    objc_property_t *properties = class_copyPropertyList([UITableView class], &outCount);
-    for (i = 0; i < outCount; i++) {
-        objc_property_t property = properties[i];
-        NSString *keyName = [NSString stringWithCString:property_getName(property) encoding:NSUTF8StringEncoding];
-        if([keyName isEqualToString:name]) {
-            return YES;
-        }
-    }
-    
-    return NO;
 }
 
 -(void)setDatas:(NSArray<WUSectionObject *> *)datas {
@@ -115,9 +92,12 @@ NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
     return height;
 }
 
--(void)callFillData:(id)userData target:(id)target {
+-(void)callFillData:(id)userData target:(id)target userInfo:(id)userInfo {
     if([target conformsToProtocol:@protocol(WUDataSourceProtocol)]) {
         [target dataSourceFillWithUserData:userData];
+        if([target respondsToSelector:@selector(dataSourceSetUserInfo:)]) {
+            [target performSelector:@selector(dataSourceSetUserInfo:) withObject:userInfo];
+        }
     }
 }
 
@@ -150,7 +130,7 @@ NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
     WUKeyValueItem<NSString*, Class> *header = s.header.registerClass;
     UITableViewHeaderFooterView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:header.key];
     headerView.textLabel.text = s.header.text;
-    [self callFillData:s.header.userData target:headerView];
+    [self callFillData:s.header.userData target:headerView userInfo:s.header.userInfo];
     
     return headerView;
 }
@@ -166,7 +146,7 @@ NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
     WUKeyValueItem<NSString*, Class> *footer = s.footer.registerClass;
     UITableViewHeaderFooterView *footerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:footer.key];
     footerView.textLabel.text = s.footer.text;
-    [self callFillData:s.footer target:footerView];
+    [self callFillData:s.footer target:footerView userInfo:s.footer.userInfo];
     
     return footerView;
 }
@@ -205,7 +185,7 @@ NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
         cell.imageView.image = nil;
     }
     
-    [self callFillData:obj.userData target:cell];
+    [self callFillData:obj.userData target:cell userInfo:obj.userInfo];
     
     return cell;
 }

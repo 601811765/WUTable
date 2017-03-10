@@ -9,6 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "WUTable.h"
 
+@class CustomerTableViewCell;
+
+@protocol CustomerTableViewCellDelegate <NSObject>
+
+-(void)customerTableViewCell:(CustomerTableViewCell*)cell buttonTouched:(UIButton*)sender;
+
+@end
+
 @interface CustomerTableViewCell : UITableViewCell<WUDataSourceProtocol>
+
+@property(nonatomic, weak) id<CustomerTableViewCellDelegate> delegate;
 
 @end

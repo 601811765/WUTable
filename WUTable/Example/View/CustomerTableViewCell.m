@@ -14,17 +14,6 @@
     UIButton *_button;
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    [self initialize];
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if(self) {
@@ -48,6 +37,7 @@
     _button = [[UIButton alloc] init];
     [_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_button setBackgroundColor:[UIColor redColor]];
+    [_button addTarget:self action:@selector(buttonTouchUpInside:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:_button];
     
     [self makeConstraints];
@@ -70,6 +60,20 @@
     [_button.centerXAnchor constraintEqualToAnchor:self.centerXAnchor constant:0].active = YES;
     [_button.widthAnchor constraintEqualToConstant:80];
     [_button.heightAnchor constraintEqualToConstant:30];
+}
+
+-(void)buttonTouchUpInside:(UIButton*)sender {
+    if(self.delegate) {
+        [self.delegate customerTableViewCell:self buttonTouched:sender];
+    }
+}
+
+-(void)dataSourceSetUserInfo:(id  _Nullable __weak)userInfo {
+    if(userInfo && [userInfo conformsToProtocol:@protocol(CustomerTableViewCellDelegate)]) {
+        self.delegate = userInfo;
+    } else {
+        self.delegate = nil;
+    }
 }
 
 -(void)dataSourceFillWithUserData:(id)userData {

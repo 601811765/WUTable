@@ -10,7 +10,7 @@
 #import "CustomerTableViewCell.h"
 #import "WUTable.h"
 
-@interface TableCustomerViewController ()
+@interface TableCustomerViewController ()<CustomerTableViewCellDelegate>
 
 @property(nonatomic, strong) WUTableView *tableView;
 
@@ -36,12 +36,17 @@
     WUCellObject *obj = [[WUCellObject alloc] init];
     obj.selectionStyle = UITableViewCellSelectionStyleNone;
     obj.registerClass = [WUKeyValueItem itemWithKey:@"customerIdentifier" value:[CustomerTableViewCell class]];
+    obj.userInfo = self;
     
     WUSectionObject *section = [WUSectionObject sectionWithCells:[NSMutableArray arrayWithArray:@[obj]]];
     section.header = [[WUHeaderFooterObject alloc] init];
     section.header.size = CGSizeMake(0, 20);
     
     return [NSMutableArray arrayWithArray:@[section]];
+}
+
+-(void)customerTableViewCell:(CustomerTableViewCell *)cell buttonTouched:(UIButton *)sender {
+    NSLog(@"%@", sender);
 }
 
 @end
