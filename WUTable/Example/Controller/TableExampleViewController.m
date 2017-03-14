@@ -11,6 +11,7 @@
 #import "TableSimpleViewController.h"
 #import "TableCustomerViewController.h"
 #import "TableHeaderFooterViewController.h"
+#import "CollectionExampleViewController.h"
 
 @interface TableExampleViewController ()
 
@@ -60,7 +61,20 @@
     
     WUSectionObject *section = [WUSectionObject sectionWithCells:cells];
     
-    return [NSMutableArray arrayWithArray:@[section]];
+    WUCellObject *s2c1 = [[WUCellObject alloc] init];
+    s2c1.text = @"CollectionView";
+    s2c1.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    s2c1.size = CGSizeMake(0, 44);
+    s2c1.target = self;
+    s2c1.selectorString = NSStringFromSelector(@selector(collection:));
+    
+    WUSectionObject *s2 = [WUSectionObject sectionWithCells:[NSMutableArray arrayWithArray:@[s2c1]]];
+    
+    WUHeaderFooterObject *s2Header = [[WUHeaderFooterObject alloc] init];
+    s2Header.size = CGSizeMake(0, 20);
+    s2.header = s2Header;
+    
+    return [NSMutableArray arrayWithArray:@[section, s2]];
 }
 
 -(void)simple:(NSIndexPath*)indexPath {
@@ -76,6 +90,11 @@
 -(void)headerFooter:(NSIndexPath*)indexPath {
     TableHeaderFooterViewController *headerFooter = [[TableHeaderFooterViewController alloc] init];
     [self showViewController:headerFooter sender:nil];
+}
+
+-(void)collection:(NSIndexPath*)indexPath {
+    CollectionExampleViewController *collection = [[CollectionExampleViewController alloc] init];
+    [self showViewController:collection sender:nil];
 }
 
 @end

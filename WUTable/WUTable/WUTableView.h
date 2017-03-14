@@ -13,11 +13,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-extern NSString *const WUTableHeaderFooterDefaultIdentifier;
-extern NSString *const WUTableCellDefaultIdentifier;
-
-#pragma mark -
-
 typedef BOOL(^WUTableViewCanEditRowHandler)(WUTableView *tableView, NSIndexPath *indexPath);
 typedef UITableViewCellEditingStyle(^WUTableViewEditingStyleForRowHandler)(WUTableView *tableView, NSIndexPath *indexPath);
 typedef void(^WUTableViewCommitEditingStyleForRowHandler)(WUTableView *tableView, UITableViewCellEditingStyle editingStyle, NSIndexPath *indexPath);
@@ -36,7 +31,7 @@ typedef void(^WUTableViewMoveRowHandler)(WUTableView *tableView, NSIndexPath *so
 @property(nonatomic, weak, nullable) id<UITableViewDataSource> dataSource NS_UNAVAILABLE;
 
 @property(nonatomic, assign) BOOL deSelectWhenSelected;
-@property(nonatomic, strong, nullable) NSArray<WUSectionObject*> *datas;
+@property(nonatomic, strong, nullable) NSMutableArray<WUSectionObject*> *datas;
 
 @property(nonatomic, copy, nullable) WUTableViewCanEditRowHandler canEditRowHandler;
 @property(nonatomic, copy, nullable) WUTableViewEditingStyleForRowHandler editingStyleForRowHandler;

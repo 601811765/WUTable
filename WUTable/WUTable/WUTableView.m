@@ -11,9 +11,6 @@
 
 #define WUTableMinLineHeight self.style == UITableViewStylePlain ? 0.0 : 0.1
 
-NSString *const WUTableHeaderFooterDefaultIdentifier = @"WUTableHeaderFooterDefaultIdentifier";
-NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
-
 @implementation WUTableView
 
 @dynamic delegate;
@@ -42,20 +39,42 @@ NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
     super.dataSource = self;
 }
 
--(void)setDatas:(NSArray<WUSectionObject *> *)datas {
+-(void)setDatas:(NSMutableArray<WUSectionObject *> *)datas {
     _datas = datas;
+    
+    if(!_datas || datas.count == 0) {
+        return;
+    }
+    
+    [self registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:WUTableDefaultHeaderFooterIdentifier];
     
     for (WUSectionObject *obj in _datas) {
         if(!obj.header) {
             obj.header = [self defaultHeaderFooter];
         } else {
-            [self registerClass:obj.header.registerClass.value forHeaderFooterViewReuseIdentifier:obj.header.registerClass.key];
+            if(!obj.header.registerClass) {
+                obj.header.registerClass = [WUKeyValueItem itemWithKey:WUTableDefaultHeaderFooterIdentifier value:[UITableViewHeaderFooterView class]];
+            } else {
+                [self registerClass:obj.header.registerClass.value forHeaderFooterViewReuseIdentifier:obj.header.registerClass.key];
+            }
         }
         
         if(!obj.footer) {
             obj.footer = [self defaultHeaderFooter];
         } else {
-            [self registerClass:obj.footer.registerClass.value forHeaderFooterViewReuseIdentifier:obj.footer.registerClass.key];
+            if(!obj.footer.registerClass) {
+                obj.header.registerClass = [WUKeyValueItem itemWithKey:WUTableDefaultHeaderFooterIdentifier value:[UITableViewHeaderFooterView class]];
+            } else {
+                [self registerClass:obj.footer.registerClass.value forHeaderFooterViewReuseIdentifier:obj.footer.registerClass.key];
+            }
+        }
+        
+        if(obj.cells) {
+            for (WUCellObject *cell in obj.cells) {
+                if(!cell.registerClass) {
+                    cell.registerClass = [WUKeyValueItem itemWithKey:WUTableDefaultCellIdentifier value:[UITableViewCell class]];
+                }
+            }
         }
     }
 }
@@ -63,6 +82,7 @@ NSString *const WUTableCellDefaultIdentifier = @"WUTableCellDefaultIdentifier";
 -(WUHeaderFooterObject*)defaultHeaderFooter {
     WUHeaderFooterObject *headerFooter = [[WUHeaderFooterObject alloc] init];
     headerFooter.size = CGSizeMake(0, WUTableMinLineHeight);
+    headerFooter.registerClass = [WUKeyValueItem itemWithKey:WUTableDefaultHeaderFooterIdentifier value:[UITableViewHeaderFooterView class]];
     return headerFooter;
 }
 

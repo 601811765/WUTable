@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		081B483A1E77BA51002BBF1C /* CollectionExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 081B48391E77BA51002BBF1C /* CollectionExampleViewController.m */; };
+		081B483D1E77CF64002BBF1C /* CollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 081B483C1E77CF64002BBF1C /* CollectionCell.m */; };
+		081B48401E77D460002BBF1C /* CollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 081B483F1E77D460002BBF1C /* CollectionReusableView.m */; };
 		08B367301E71484900F34D0D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B3672F1E71484900F34D0D /* main.m */; };
 		08B367331E71484900F34D0D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B367321E71484900F34D0D /* AppDelegate.m */; };
 		08B3673B1E71484900F34D0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 08B3673A1E71484900F34D0D /* Assets.xcassets */; };
@@ -18,9 +21,16 @@
 		08B3675F1E71492A00F34D0D /* TableSimpleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B367561E71492A00F34D0D /* TableSimpleViewController.m */; };
 		08B367601E71492A00F34D0D /* CustomerHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B367591E71492A00F34D0D /* CustomerHeaderFooterView.m */; };
 		08B367611E71492A00F34D0D /* CustomerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 08B3675B1E71492A00F34D0D /* CustomerTableViewCell.m */; };
+		08FCCB671E726B3900143C28 /* WUCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 08FCCB661E726B3900143C28 /* WUCollectionView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		081B48381E77BA51002BBF1C /* CollectionExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionExampleViewController.h; sourceTree = "<group>"; };
+		081B48391E77BA51002BBF1C /* CollectionExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionExampleViewController.m; sourceTree = "<group>"; };
+		081B483B1E77CF64002BBF1C /* CollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionCell.h; sourceTree = "<group>"; };
+		081B483C1E77CF64002BBF1C /* CollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionCell.m; sourceTree = "<group>"; };
+		081B483E1E77D460002BBF1C /* CollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionReusableView.h; sourceTree = "<group>"; };
+		081B483F1E77D460002BBF1C /* CollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionReusableView.m; sourceTree = "<group>"; };
 		08B3672B1E71484900F34D0D /* WUTable.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WUTable.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08B3672F1E71484900F34D0D /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		08B367311E71484900F34D0D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -44,6 +54,8 @@
 		08B367591E71492A00F34D0D /* CustomerHeaderFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerHeaderFooterView.m; sourceTree = "<group>"; };
 		08B3675A1E71492A00F34D0D /* CustomerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerTableViewCell.h; sourceTree = "<group>"; };
 		08B3675B1E71492A00F34D0D /* CustomerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerTableViewCell.m; sourceTree = "<group>"; };
+		08FCCB651E726B3900143C28 /* WUCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WUCollectionView.h; sourceTree = "<group>"; };
+		08FCCB661E726B3900143C28 /* WUCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WUCollectionView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +115,8 @@
 				08B367471E71489A00F34D0D /* WUDataSource.m */,
 				08B367491E71489A00F34D0D /* WUTableView.h */,
 				08B3674A1E71489A00F34D0D /* WUTableView.m */,
+				08FCCB651E726B3900143C28 /* WUCollectionView.h */,
+				08FCCB661E726B3900143C28 /* WUCollectionView.m */,
 			);
 			path = WUTable;
 			sourceTree = "<group>";
@@ -127,6 +141,8 @@
 				08B367501E71492A00F34D0D /* TableCustomerViewController.m */,
 				08B367531E71492A00F34D0D /* TableHeaderFooterViewController.h */,
 				08B367541E71492A00F34D0D /* TableHeaderFooterViewController.m */,
+				081B48381E77BA51002BBF1C /* CollectionExampleViewController.h */,
+				081B48391E77BA51002BBF1C /* CollectionExampleViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -138,6 +154,10 @@
 				08B367591E71492A00F34D0D /* CustomerHeaderFooterView.m */,
 				08B3675A1E71492A00F34D0D /* CustomerTableViewCell.h */,
 				08B3675B1E71492A00F34D0D /* CustomerTableViewCell.m */,
+				081B483B1E77CF64002BBF1C /* CollectionCell.h */,
+				081B483C1E77CF64002BBF1C /* CollectionCell.m */,
+				081B483E1E77D460002BBF1C /* CollectionReusableView.h */,
+				081B483F1E77D460002BBF1C /* CollectionReusableView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -212,15 +232,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				08B3674B1E71489A00F34D0D /* WUDataSource.m in Sources */,
+				08FCCB671E726B3900143C28 /* WUCollectionView.m in Sources */,
 				08B3675C1E71492A00F34D0D /* TableCustomerViewController.m in Sources */,
 				08B367331E71484900F34D0D /* AppDelegate.m in Sources */,
 				08B3675E1E71492A00F34D0D /* TableHeaderFooterViewController.m in Sources */,
+				081B483A1E77BA51002BBF1C /* CollectionExampleViewController.m in Sources */,
 				08B367301E71484900F34D0D /* main.m in Sources */,
 				08B367611E71492A00F34D0D /* CustomerTableViewCell.m in Sources */,
 				08B3675D1E71492A00F34D0D /* TableExampleViewController.m in Sources */,
 				08B3674C1E71489A00F34D0D /* WUTableView.m in Sources */,
 				08B3675F1E71492A00F34D0D /* TableSimpleViewController.m in Sources */,
+				081B483D1E77CF64002BBF1C /* CollectionCell.m in Sources */,
 				08B367601E71492A00F34D0D /* CustomerHeaderFooterView.m in Sources */,
+				081B48401E77D460002BBF1C /* CollectionReusableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,6 +382,7 @@
 				08B367441E71484900F34D0D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

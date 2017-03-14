@@ -9,6 +9,12 @@
 #import "WUDataSource.h"
 #import "WUTable.h"
 
+NSString *const WUTableDefaultCellIdentifier = @"WUTableDefaultCellIdentifier";
+NSString *const WUTableDefaultHeaderFooterIdentifier = @"WUTableDefaultHeaderFooterIdentifier";
+NSString *const WUCollectionDefaultCellIdentifier = @"WUCollectionDefaultCellIdentifier";
+NSString *const WUCollectionDefaultHeaderIdentifier = @"WUCollectionDefaultHeaderIdentifier";
+NSString *const WUCollectionDefaultFooterIdentifier = @"WUCollectionDefaultFooterIdentifier";
+
 @implementation WUKeyValueItem
 
 +(instancetype)itemWithKey:(id)key value:(id)value {
@@ -28,7 +34,6 @@
     self = [super init];
     if(self) {
         self.style = UITableViewCellStyleDefault;
-        self.registerClass = [WUKeyValueItem itemWithKey:WUTableCellDefaultIdentifier value:[UITableViewCell class]];
         self.size = WUSizeNotFound;
         self.selectionStyle = UITableViewCellSelectionStyleDefault;
     }
@@ -42,7 +47,6 @@
 -(instancetype)init {
     self = [super init];
     if(self) {
-        self.registerClass = [WUKeyValueItem itemWithKey:WUTableHeaderFooterDefaultIdentifier value:[UITableViewHeaderFooterView class]];
         self.size = WUSizeNotFound;
     }
     return self;

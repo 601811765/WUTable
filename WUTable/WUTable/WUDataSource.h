@@ -10,6 +10,8 @@
 
 #define WUNotFound CGFLOAT_MAX
 #define WUSizeNotFound CGSizeMake(WUNotFound, WUNotFound)
+#define WUSystemVersion [[[UIDevice currentDevice] systemVersion] floatValue]
+#define WURandomReusableIdentifier [[NSUUID UUID] UUIDString]
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -105,5 +107,11 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)dataSourceSetUserInfo:(__weak _Nullable id)userInfo;
 
 @end
+
+extern NSString *const WUTableDefaultCellIdentifier;
+extern NSString *const WUTableDefaultHeaderFooterIdentifier;
+extern NSString *const WUCollectionDefaultCellIdentifier;
+extern NSString *const WUCollectionDefaultHeaderIdentifier;
+extern NSString *const WUCollectionDefaultFooterIdentifier;
 
 NS_ASSUME_NONNULL_END

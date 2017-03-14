@@ -11,5 +11,6 @@
 
 #import "WUDataSource.h"
 #import "WUTableView.h"
+#import "WUCollectionView.h"
 
 #endif /* WUTable_h */
