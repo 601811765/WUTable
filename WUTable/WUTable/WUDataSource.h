@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface WUCellObject : NSObject
+@interface WUCellObject : NSObject<NSCopying>
 
 @property(nonatomic, strong, nullable) NSString *text;
 @property(nonatomic, strong, nullable) NSString *detailText;
@@ -35,6 +35,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) UITableViewCellStyle style;
 @property(nonatomic, assign) UITableViewCellSelectionStyle selectionStyle;
 @property(nonatomic, assign) UITableViewCellAccessoryType accessoryType;
+/**
+ 是否可以移动 默认YES
+ */
+@property(nonatomic, assign) BOOL canMove;
 /**
  注册的类，key 为reuseIdentifier
  */

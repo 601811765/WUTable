@@ -21,7 +21,7 @@
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame: frame];
     if(self) {
-        [self setDelegateDataSource];
+        [self initialize];
     }
     return self;
 }
@@ -29,9 +29,14 @@
 -(instancetype)initWithFrame:(CGRect)frame style:(UITableViewStyle)style {
     self = [super initWithFrame:frame style:style];
     if(self) {
-        [self setDelegateDataSource];
+        [self initialize];
     }
     return self;
+}
+
+-(void)initialize {
+    [self setDelegateDataSource];
+    self.autoRefreshDataWhenMoveItemCompleted = YES;
 }
 
 -(void)setDelegateDataSource {
@@ -241,19 +246,6 @@
     return YES;
 }
 
--(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(self.editingStyleForRowHandler) {
-        return self.editingStyleForRowHandler(self, indexPath);
-    }
-    return UITableViewCellEditingStyleNone;
-}
-
--(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(self.commitEditingStyleForRowHandler) {
-        self.commitEditingStyleForRowHandler(self, editingStyle, indexPath);
-    }
-}
-
 -(NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(self.editForRowActionHandler) {
         return self.editForRowActionHandler(self, indexPath);
@@ -263,15 +255,31 @@
 }
 
 -(BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(self.canMoveRowHandler) {
-        return self.canMoveRowHandler(self, indexPath);
+    WUCellObject *obj = [self cellObjectWithIndexPath:indexPath];
+    return obj.canMove;
+}
+
+-(NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
+    WUCellObject *obj = [self cellObjectWithIndexPath:proposedDestinationIndexPath];
+    if(!obj.canMove) {
+        return sourceIndexPath;
     }
-    return NO;
+    
+    return proposedDestinationIndexPath;
 }
 
 -(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    if(self.moveRowHandler) {
-        self.moveRowHandler(self, sourceIndexPath, destinationIndexPath);
+    if(self.autoRefreshDataWhenMoveItemCompleted) {
+        WUSectionObject *sourceSection = self.datas[sourceIndexPath.section];
+        WUCellObject *sourceObj = sourceSection.cells[sourceIndexPath.row];
+        [sourceSection.cells removeObject:sourceObj];
+        
+        WUSectionObject *destinationSection = self.datas[destinationIndexPath.section];
+        [destinationSection.cells insertObject:sourceObj atIndex:destinationIndexPath.row];
+    }
+    
+    if(self.moveRowCompletedHandler) {
+        self.moveRowCompletedHandler(self, sourceIndexPath, destinationIndexPath);
     }
 }
 
@@ -294,6 +302,25 @@
             cell.size = WUSizeNotFound;
         }
     }
+}
+
+#pragma mark -
+
+-(CGRect)cellScreenRectWithTouchPoint:(CGPoint)point {
+    NSIndexPath *indexPath = [self indexPathForRowAtPoint:point];
+    if(!indexPath) {
+        return CGRectNull;
+    }
+    
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    if(!window) {
+        return CGRectNull;
+    }
+    
+    UITableViewCell *cell = [self cellForRowAtIndexPath:indexPath];
+    
+    CGRect rect = [self convertRect:cell.frame toView:window];
+    return rect;
 }
 
 @end

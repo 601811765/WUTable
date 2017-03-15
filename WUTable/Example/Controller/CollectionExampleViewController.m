@@ -28,12 +28,13 @@
     self.title = @"CollectionView";
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.minimumLineSpacing = 0;
-    layout.minimumInteritemSpacing = 0;
+    layout.minimumLineSpacing = 5;
+    layout.minimumInteritemSpacing = 5;
     
     _collectionView = [[WUCollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
     _collectionView.alwaysBounceVertical = YES;
     _collectionView.datas = [self datas];
+    _collectionView.interactiveMovementEnabled = YES;
     [self.view addSubview:_collectionView];
     
     [self makeConstraints];
@@ -48,12 +49,8 @@
 }
 
 -(NSMutableArray<WUSectionObject*>*)datas {
-    WUCellObject *c1 = [[WUCellObject alloc] init];
-    c1.registerClass = [WUKeyValueItem itemWithKey:WURandomReusableIdentifier value:[CollectionCell class]];
-    c1.target = self;
-    c1.userData = @"Cell";
     
-    WUSectionObject *section = [WUSectionObject sectionWithCells:[NSMutableArray arrayWithArray:@[c1]]];
+    WUSectionObject *section = [WUSectionObject sectionWithCells:[self cells]];
     
     WUHeaderFooterObject *header = [[WUHeaderFooterObject alloc] init];
     header.registerClass = [WUKeyValueItem itemWithKey:WURandomReusableIdentifier value:[CollectionReusableView class]];
@@ -67,5 +64,22 @@
     
     return [NSMutableArray arrayWithArray:@[section]];
 }
+
+-(NSMutableArray<WUCellObject*>*)cells {
+    NSMutableArray<WUCellObject*> *cells = [NSMutableArray array];
+    for (int i = 0; i < 20; i++) {
+        WUCellObject *cell = [[WUCellObject alloc] init];
+        cell.registerClass = [WUKeyValueItem itemWithKey:WURandomReusableIdentifier value:[CollectionCell class]];
+        cell.userData = [NSString stringWithFormat:@"%d", i];
+        
+        if(i == 0) {
+            cell.canMove = NO;
+        }
+        
+        [cells addObject:cell];
+    }
+    return cells;
+}
+
 
 @end

@@ -26,17 +26,20 @@
     
     self.title = @"简单视图";
     
+    UIBarButtonItem *rightButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemEdit target:self action:@selector(rightBarButtonTouch:)];
+    self.navigationItem.rightBarButtonItem = rightButton;
+    
     _tableView = [[WUTableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     _tableView.datas = [self datas];
     _tableView.deSelectWhenSelected = YES;
     [self.view addSubview:_tableView];
     
-    _tableView.canEditRowHandler = ^ BOOL (WUTableView *tableView, NSIndexPath *indexPath) {
-        if(indexPath.section == 0 && indexPath.row == 2) {
-            return NO;
-        }
-        return YES;
-    };
+//    _tableView.canEditRowHandler = ^ BOOL (WUTableView *tableView, NSIndexPath *indexPath) {
+//        if(indexPath.section == 0 && indexPath.row == 2) {
+//            return NO;
+//        }
+//        return YES;
+//    };
     _tableView.editForRowActionHandler = ^ NSArray<UITableViewRowAction*>* (WUTableView *tableView, NSIndexPath *indexPath) {
         UITableViewRowAction *actionA = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"A" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
             
@@ -54,6 +57,7 @@
     WUCellObject *obj1 = [[WUCellObject alloc] init];
     obj1.text = @"UITableViewCellStyleDefault";
     obj1.size = CGSizeMake(0, 44);
+    obj1.canMove = NO;
     
     WUCellObject *obj2 = [[WUCellObject alloc] init];
     obj2.style = UITableViewCellStyleSubtitle;
@@ -78,6 +82,10 @@
     WUSectionObject *section = [WUSectionObject sectionWithCells:cells];
     
     return [NSMutableArray arrayWithArray:@[section]];
+}
+
+-(void)rightBarButtonTouch:(UIBarButtonItem*)sender {
+    self.tableView.editing = !self.tableView.editing;
 }
 
 @end

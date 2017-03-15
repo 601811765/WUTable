@@ -12,8 +12,6 @@
 @interface CollectionCell ()<WUDataSourceProtocol>
 
 @property(nonatomic, strong) UILabel *textLabel;
-@property(nonatomic, strong) CALayer *topLayer;
-@property(nonatomic, strong) CALayer *bottomLayer;
 
 @end
 
@@ -28,6 +26,9 @@
 }
 
 -(void)initialize {
+    
+    self.contentView.backgroundColor = [UIColor greenColor];
+    
     _textLabel = [[UILabel alloc] init];
     _textLabel.font = [UIFont systemFontOfSize:18];
     _textLabel.textColor = [UIColor blackColor];
@@ -46,22 +47,6 @@
     [_textLabel.leftAnchor constraintEqualToAnchor:view.leftAnchor constant:10].active = YES;
     [_textLabel.bottomAnchor constraintEqualToAnchor:view.bottomAnchor constant:0].active = YES;
     [_textLabel.rightAnchor constraintEqualToAnchor:view.rightAnchor constant:-10].active = YES;
-    
-    _topLayer = [[CALayer alloc] init];
-    _topLayer.backgroundColor = [UIColor grayColor].CGColor;
-    [self.contentView.layer addSublayer:_topLayer];
-    
-    _bottomLayer = [[CALayer alloc] init];
-    _bottomLayer.backgroundColor = [UIColor grayColor].CGColor;
-    [self.contentView.layer addSublayer:_bottomLayer];
-}
-
--(void)layoutSubviews {
-    [super layoutSubviews];
-    
-    CGFloat lineHeight = 1 / [[UIScreen mainScreen] scale];
-    _topLayer.frame = CGRectMake(0, 0, CGRectGetWidth(self.contentView.frame), lineHeight);
-    _bottomLayer.frame = CGRectMake(0, CGRectGetMaxY(self.contentView.frame), CGRectGetWidth(self.contentView.frame), lineHeight);
 }
 
 -(void)dataSourceFillWithUserData:(id)userData {
@@ -73,7 +58,7 @@
 }
 
 +(CGSize)dataSourceSizeWithUserData:(id)userData {
-    return CGSizeMake([[UIScreen mainScreen] bounds].size.width, 80);
+    return CGSizeMake(([[UIScreen mainScreen] bounds].size.width - 15) / 4, 80);
 }
 
 @end

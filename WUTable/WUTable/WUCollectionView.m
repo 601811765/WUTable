@@ -9,6 +9,12 @@
 #import "WUCollectionView.h"
 #import <objc/message.h>
 
+@interface WUCollectionView()
+
+@property(nonatomic, strong) UILongPressGestureRecognizer *longPressGestureRecognizer;
+
+@end
+
 @implementation WUCollectionView
 
 @dynamic delegate;
@@ -20,6 +26,7 @@
         [super setDelegate:self];
         [super setDataSource:self];
         self.backgroundColor = [UIColor whiteColor];
+        self.autoRefreshDataWhenMoveItemCompleted = YES;
     }
     return self;
 }
@@ -30,7 +37,7 @@
     if(!_datas || datas.count == 0) {
         return;
     }
-    
+
     [self registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:WUCollectionDefaultCellIdentifier];
     [self registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:WUCollectionDefaultHeaderIdentifier];
     [self registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:WUCollectionDefaultFooterIdentifier];
@@ -188,6 +195,12 @@
     }
 }
 
+-(void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    if(self.didEndDisplayCellHandler) {
+        self.didEndDisplayCellHandler(self, cell, indexPath);
+    }
+}
+
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     WUCellObject *obj = [self cellObjectWithIndexPath:indexPath];
     if(obj.target && obj.selectorString) {
@@ -203,15 +216,94 @@
 }
 
 -(BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath {
-    if(self.canMoveItemHandler) {
-        return self.canMoveItemHandler(self, indexPath);
+    WUCellObject *obj = [self cellObjectWithIndexPath:indexPath];
+    return obj.canMove;
+}
+
+-(NSIndexPath *)collectionView:(UICollectionView *)collectionView targetIndexPathForMoveFromItemAtIndexPath:(NSIndexPath *)originalIndexPath toProposedIndexPath:(NSIndexPath *)proposedIndexPath {
+    WUCellObject *obj = [self cellObjectWithIndexPath:proposedIndexPath];
+    if(!obj.canMove) {
+        return originalIndexPath;
     }
-    return NO;
+    
+    return proposedIndexPath;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    if(self.moveItemHandler) {
-        self.moveItemHandler(self, sourceIndexPath, destinationIndexPath);
+    if(self.autoRefreshDataWhenMoveItemCompleted) {
+        WUSectionObject *sourceSection = self.datas[sourceIndexPath.section];
+        WUCellObject *sourceObj = sourceSection.cells[sourceIndexPath.row];
+        [sourceSection.cells removeObject:sourceObj];
+        
+        WUSectionObject *destinationSection = self.datas[destinationIndexPath.section];
+        [destinationSection.cells insertObject:sourceObj atIndex:destinationIndexPath.row];
+    }
+    
+    if(self.moveItemCompletedHandler) {
+        self.moveItemCompletedHandler(self, sourceIndexPath, destinationIndexPath);
+    }
+}
+
+#pragma mark -
+
+-(CGRect)cellScreenRectWithTouchPoint:(CGPoint)point {
+    NSIndexPath *indexPath = [self indexPathForItemAtPoint:point];
+    if(!indexPath) {
+        return CGRectNull;
+    }
+    
+    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
+    if(!window) {
+        return CGRectNull;
+    }
+    
+    UICollectionViewCell *cell = [self cellForItemAtIndexPath:indexPath];
+    
+    CGRect rect = [self convertRect:cell.frame toView:window];
+    return rect;
+}
+
+#pragma mark - 重排功能
+-(void)setInteractiveMovementEnabled:(BOOL)interactiveMovementEnabled {
+    if(_interactiveMovementEnabled == interactiveMovementEnabled) {
+        return;
+    }
+    _interactiveMovementEnabled = interactiveMovementEnabled;
+    
+    if(_interactiveMovementEnabled) {
+        self.longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressHandler:)];
+        
+        [self addGestureRecognizer:self.longPressGestureRecognizer];
+    } else {
+        [self removeGestureRecognizer:self.longPressGestureRecognizer];
+        self.longPressGestureRecognizer = nil;
+    }
+}
+
+-(void)longPressHandler:(UIGestureRecognizer*)recognizer {
+    CGPoint point = [recognizer locationInView:self];
+    switch (recognizer.state) {
+        case UIGestureRecognizerStateBegan: {
+            NSIndexPath *indexPath = [self indexPathForItemAtPoint:point];
+            
+            if(!indexPath) {
+                return;
+            }
+            [self beginInteractiveMovementForItemAtIndexPath:indexPath];
+        }
+            break;
+        case UIGestureRecognizerStateChanged: {
+            [self updateInteractiveMovementTargetPosition:point];
+        }
+            break;
+        case UIGestureRecognizerStateEnded: {
+            [self endInteractiveMovement];
+        }
+            break;
+        default: {
+            [self cancelInteractiveMovement];
+        }
+            break;
     }
 }
 

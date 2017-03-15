@@ -36,8 +36,28 @@ NSString *const WUCollectionDefaultFooterIdentifier = @"WUCollectionDefaultFoote
         self.style = UITableViewCellStyleDefault;
         self.size = WUSizeNotFound;
         self.selectionStyle = UITableViewCellSelectionStyleDefault;
+        self.canMove = YES;
     }
     return self;
+}
+
+-(id)copyWithZone:(NSZone *)zone {
+    WUCellObject *obj = [WUCellObject allocWithZone:zone];
+    obj.text = self.text;
+    obj.detailText = self.detailText;
+    obj.imageName = self.imageName;
+    obj.style = self.style;
+    obj.selectionStyle = self.selectionStyle;
+    obj.accessoryType = self.accessoryType;
+    obj.canMove = self.canMove;
+    obj.registerClass = self.registerClass;
+    obj.target = self.target;
+    obj.selectorString = self.selectorString;
+    obj.size = self.size;
+    obj.userData = self.userData;
+    obj.userInfo = self.userInfo;
+    
+    return obj;
 }
 
 @end
