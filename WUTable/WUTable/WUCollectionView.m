@@ -20,15 +20,24 @@
 @dynamic delegate;
 @dynamic dataSource;
 
+-(void)awakeFromNib {
+    [super awakeFromNib];
+    [self initialize];
+}
+
 -(instancetype)initWithFrame:(CGRect)frame collectionViewLayout:(UICollectionViewLayout *)layout {
     self = [super initWithFrame:frame collectionViewLayout:layout];
     if(self) {
-        [super setDelegate:self];
-        [super setDataSource:self];
-        self.backgroundColor = [UIColor whiteColor];
-        self.autoRefreshDataWhenMoveItemCompleted = YES;
+        [self initialize];
     }
     return self;
+}
+
+-(void)initialize {
+    [super setDelegate:self];
+    [super setDataSource:self];
+    self.backgroundColor = [UIColor whiteColor];
+    self.autoRefreshDataWhenMoveItemCompleted = YES;
 }
 
 -(void)setDatas:(NSMutableArray<WUSectionObject *> *)datas {

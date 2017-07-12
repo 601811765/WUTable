@@ -1,0 +1,12 @@
+erstate
+*.xcuserdatad/
+xcuserdata/
+xcshareddata/
+.metadata/
+# 忽略`Pods/`和`Podfile.lock`
+Pods/
+Podfile.lock
+.DS_Store
+
+
+

@@ -18,6 +18,11 @@
 
 #pragma mark -
 
+-(void)awakeFromNib {
+    [super awakeFromNib];
+    [self initialize];
+}
+
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame: frame];
     if(self) {
