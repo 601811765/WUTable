@@ -24,7 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface WUCellObject : NSObject<NSCopying>
+@interface WUCellObject : NSObject
 
 @property(nonatomic, strong, nullable) NSString *text;
 @property(nonatomic, strong, nullable) NSString *detailText;

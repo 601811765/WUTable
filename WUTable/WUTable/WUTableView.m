@@ -28,6 +28,7 @@
     if(self) {
         [self initialize];
     }
+    
     return self;
 }
 
@@ -56,8 +57,11 @@
         return;
     }
     
+    [self parseDatas];
+}
+
+-(void)parseDatas {
     [self registerClass:[UITableViewHeaderFooterView class] forHeaderFooterViewReuseIdentifier:WUTableDefaultHeaderFooterIdentifier];
-    
     for (WUSectionObject *obj in _datas) {
         if(!obj.header) {
             obj.header = [self defaultHeaderFooter];

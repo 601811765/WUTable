@@ -67,6 +67,8 @@ typedef void(^WUTableViewMoveRowCompletedHandler)(WUTableView *tableView, NSInde
  */
 -(CGRect)cellScreenRectWithTouchPoint:(CGPoint)point;
 
+-(void)parseDatas;
+
 @end
 
 NS_ASSUME_NONNULL_END
