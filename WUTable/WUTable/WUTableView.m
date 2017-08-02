@@ -153,6 +153,13 @@
     return nil;
 }
 
+-(NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
+    if(self.sectionForSectionIndexTitleHandler) {
+        return self.sectionForSectionIndexTitleHandler(self, title, index);
+    }
+    return index;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     WUSectionObject *s = self.datas[section];
     CGFloat height = [self heightWithHeaderFooterObj:s.header];

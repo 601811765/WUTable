@@ -19,6 +19,7 @@ typedef void(^WUTableViewWillDisplayCellHandler)(WUTableView *tableView, UITable
 typedef void(^WUTableViewDidSelectRowHandler)(WUTableView *tableView, NSIndexPath *indexPath);
 typedef NSArray<NSString *> * _Nullable (^WUTableViewSectionIndexTitlesHandler)(WUTableView *tableView);
 typedef void(^WUTableViewMoveRowCompletedHandler)(WUTableView *tableView, NSIndexPath *sourceIndexPath, NSIndexPath *destinationIndexPath);
+typedef NSInteger(^WUTableViewSectionForSectionIndexTitleHandler)(WUTableView *tableView, NSString *title, NSInteger index);
 
 #pragma mark -
 
@@ -47,6 +48,7 @@ typedef void(^WUTableViewMoveRowCompletedHandler)(WUTableView *tableView, NSInde
 @property(nonatomic, copy, nullable) WUTableViewDidSelectRowHandler didSelectRowHandler;
 @property(nonatomic, copy, nullable) WUTableViewSectionIndexTitlesHandler sectionIndexTitlesHandler;
 @property(nonatomic, copy, nullable) WUTableViewMoveRowCompletedHandler moveRowCompletedHandler;
+@property(nonatomic, copy, nullable) WUTableViewSectionForSectionIndexTitleHandler sectionForSectionIndexTitleHandler;
 
 /**
  需要重新计算cell的高度，(需要主动调用reload方法)
