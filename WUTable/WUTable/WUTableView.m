@@ -259,7 +259,10 @@
     if(self.canEditRowHandler) {
         return self.canEditRowHandler(self, indexPath);
     }
-    return YES;
+    if(self.editForRowActionHandler) {
+        return YES;
+    }
+    return NO;
 }
 
 -(NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
