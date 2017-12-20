@@ -87,9 +87,11 @@
     [_button setTitle:@"按钮" forState:UIControlStateNormal];
     NSOperationQueue *queue = [[NSOperationQueue alloc] init];
     [queue addOperationWithBlock:^{
+        
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://ac-5vk4odto.clouddn.com/4hpuXQupP3EDhSI7vVoCMsSog1FWwFGnXXWCjGSl.jpg"]];
+        
         NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
         [mainQueue addOperationWithBlock:^{
-            NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://dn-frahx1zb.qbox.me/hC1jFiX9roag1AN4RFb2nw6QkoR3p2tf8MOD3nYm.jpg"]];
             UIImage *image = [UIImage imageWithData:data];
             _imView.image = image;
         }];

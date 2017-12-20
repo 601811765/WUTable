@@ -31,6 +31,11 @@ typedef void(^WUCollectionViewMoveItemCompletedHandler)(WUCollectionView *collec
  */
 @property(nonatomic, assign) BOOL interactiveMovementEnabled NS_AVAILABLE_IOS(9_0);
 /**
+ Default: 0.5
+ */
+@property(nonatomic, assign) CFTimeInterval interactiveMovementMinimumPressDuration;
+
+/**
  是否在moveItem完成时自动更新data中的数据 默认YES
  */
 @property(nonatomic, assign) BOOL autoRefreshDataWhenMoveItemCompleted NS_AVAILABLE_IOS(9_0);

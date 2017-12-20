@@ -38,6 +38,7 @@
     [super setDataSource:self];
     self.backgroundColor = [UIColor whiteColor];
     self.autoRefreshDataWhenMoveItemCompleted = YES;
+    self.interactiveMovementMinimumPressDuration = 0.5;
 }
 
 -(void)setDatas:(NSMutableArray<WUSectionObject *> *)datas {
@@ -284,7 +285,7 @@
     
     if(_interactiveMovementEnabled) {
         self.longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressHandler:)];
-        
+        self.longPressGestureRecognizer.minimumPressDuration = self.interactiveMovementMinimumPressDuration;
         [self addGestureRecognizer:self.longPressGestureRecognizer];
     } else {
         [self removeGestureRecognizer:self.longPressGestureRecognizer];
