@@ -14,7 +14,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
-
+typedef CGSize(^WUCollectionViewSizeForItemHandler)(WUCollectionView *collectionView, UICollectionViewLayout *collectionViewLayout, NSIndexPath *indexPath);
 typedef void(^WUCollectionViewWillDisplayCellHandler)(WUCollectionView *collectionView, UICollectionViewCell *cell, NSIndexPath *indexPath);
 typedef void(^WUCollectionViewDidEndDisplayCellHandler)(WUCollectionView *collectionView, UICollectionViewCell *cell, NSIndexPath *indexPath);
 typedef void(^WUCollectionViewDidSelectItemHandler)(WUCollectionView *collectionView, NSIndexPath *indexPath);
@@ -35,6 +35,10 @@ typedef void(^WUCollectionViewMoveItemCompletedHandler)(WUCollectionView *collec
  */
 @property(nonatomic, assign) BOOL autoRefreshDataWhenMoveItemCompleted NS_AVAILABLE_IOS(9_0);
 
+/**
+ 如果实现了此block，[WUDataSourceProtocol dataSourceSizeWithUserData:]将会被忽略
+ */
+@property(nonatomic, copy, nullable) WUCollectionViewSizeForItemHandler sizeForItemHandler;
 @property(nonatomic, copy, nullable) WUCollectionViewWillDisplayCellHandler willDisplayCellHandler NS_AVAILABLE_IOS(8_0);
 @property(nonatomic, copy, nullable) WUCollectionViewDidEndDisplayCellHandler didEndDisplayCellHandler NS_AVAILABLE_IOS(8_0);
 @property(nonatomic, copy, nullable) WUCollectionViewDidSelectItemHandler didSelectItemHandler;

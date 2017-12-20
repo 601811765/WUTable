@@ -42,7 +42,7 @@ NSString *const WUCollectionDefaultFooterIdentifier = @"WUCollectionDefaultFoote
 }
 
 -(id)copyWithZone:(NSZone *)zone {
-    WUCellObject *obj = [WUCellObject allocWithZone:zone];
+    WUCellObject *obj = [[WUCellObject allocWithZone:zone] init];
     obj.text = self.text;
     obj.detailText = self.detailText;
     obj.imageName = self.imageName;

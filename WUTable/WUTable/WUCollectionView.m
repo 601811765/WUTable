@@ -170,19 +170,22 @@
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    WUCellObject *obj = [self cellObjectWithIndexPath:indexPath];
-    CGSize size = obj.size;
-    if(CGSizeEqualToSize(WUSizeNotFound, size)) {
-        Class cls = obj.registerClass.value;
-        if([cls conformsToProtocol:@protocol(WUDataSourceProtocol)]) {
-            size = [cls dataSourceSizeWithUserData:obj.userData];
-            obj.size = size;
-        } else {
-            size = CGSizeZero;
+    if(self.sizeForItemHandler) {
+        return self.sizeForItemHandler(self, collectionViewLayout, indexPath);
+    } else {
+        WUCellObject *obj = [self cellObjectWithIndexPath:indexPath];
+        CGSize size = obj.size;
+        if(CGSizeEqualToSize(WUSizeNotFound, size)) {
+            Class cls = obj.registerClass.value;
+            if([cls conformsToProtocol:@protocol(WUDataSourceProtocol)]) {
+                size = [cls dataSourceSizeWithUserData:obj.userData];
+                obj.size = size;
+            } else {
+                size = CGSizeZero;
+            }
         }
+        return size;
     }
-    
-    return size;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
