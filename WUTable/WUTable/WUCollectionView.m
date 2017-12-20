@@ -293,6 +293,13 @@
     }
 }
 
+-(void)setInteractiveMovementMinimumPressDuration:(CFTimeInterval)interactiveMovementMinimumPressDuration {
+    _interactiveMovementMinimumPressDuration = interactiveMovementMinimumPressDuration;
+    if(self.longPressGestureRecognizer) {
+        self.longPressGestureRecognizer.minimumPressDuration = self.interactiveMovementMinimumPressDuration;
+    }
+}
+
 -(void)longPressHandler:(UIGestureRecognizer*)recognizer {
     CGPoint point = [recognizer locationInView:self];
     switch (recognizer.state) {

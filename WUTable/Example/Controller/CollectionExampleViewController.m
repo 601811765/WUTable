@@ -35,7 +35,7 @@
     _collectionView.alwaysBounceVertical = YES;
     _collectionView.datas = [self datas];
     _collectionView.interactiveMovementEnabled = YES;
-    _collectionView.interactiveMovementMinimumPressDuration = 0.1;
+    _collectionView.interactiveMovementMinimumPressDuration = 0.3;
     [self.view addSubview:_collectionView];
     
     [self makeConstraints];
